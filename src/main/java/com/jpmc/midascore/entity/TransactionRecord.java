@@ -14,6 +14,8 @@ public class TransactionRecord {
 
     private float amount;
 
+    private float incentive;
+
     @ManyToOne
     private UserRecord sender;
 
@@ -59,5 +61,13 @@ public class TransactionRecord {
 
     public void setReceiver(UserRecord receiver) {
         this.receiver = receiver;
+    }
+
+    public float getIncentive() {
+        return incentive;
+    }
+
+    public void setIncentive(float incentive) {
+        this.incentive = incentive;
     }
 }
