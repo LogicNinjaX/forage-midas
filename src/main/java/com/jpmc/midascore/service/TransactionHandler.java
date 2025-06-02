@@ -15,10 +15,12 @@ public class TransactionHandler {
 
     private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
+    private final IncentiveService incentiveService;
 
-    public TransactionHandler(UserRepository userRepository, TransactionRepository transactionRepository) {
+    public TransactionHandler(UserRepository userRepository, TransactionRepository transactionRepository, IncentiveService incentiveService) {
         this.userRepository = userRepository;
         this.transactionRepository = transactionRepository;
+        this.incentiveService = incentiveService;
     }
 
 
@@ -32,8 +34,9 @@ public class TransactionHandler {
         if (sender == null && receiver == null) return null;
 
         if (sender.getBalance() >= transaction.getAmount()){
+            float incentiveAmount = incentiveService.getIncentive(transaction);
             sender.setBalance(sender.getBalance() - transaction.getAmount());
-            receiver.setBalance(receiver.getBalance() + transaction.getAmount());
+            receiver.setBalance(receiver.getBalance() + transaction.getAmount() + incentiveAmount);
 
             TransactionRecord transactionRecord = new TransactionRecord(transaction.getAmount(), sender, receiver);
 
